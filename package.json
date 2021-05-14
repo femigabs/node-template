@@ -1,0 +1,71 @@
+{
+  "name": "form_result",
+  "version": "0.0.1",
+  "description": "",
+  "main": "index.js",
+  "private": true,
+  "nyc": {
+    "all": false,
+    "include": [
+      "app/**"
+    ],
+    "exclude": [
+      "**/migrations/**"
+    ]
+  },
+  "scripts": {
+    "pretest": "npm run migrate-test:down && npm run migrate-test:up",
+    "test": "nyc --reporter=lcov --reporter=text --reporter=text-summary cross-env NODE_ENV=test mocha -c -r esm test/**/*.js --timeout 12000 --exit",
+    "posttest": "npm run migrate-test:down",
+    "prestart": "cross-env NODE_ENV=production npm run migrate:up",
+    "start": "cross-env NODE_ENV=production node -r esm .",
+    "dev": "cross-env nodemon -r esm .",
+    "migrate:up": "db-migrate up",
+    "migrate:down": "db-migrate down -c 100",
+    "migrate-test:up": "db-migrate up --config database.json -e test",
+    "migrate-test:down": "db-migrate down -c 100 --config database.json -e test",
+    "lint": "eslint --ext .js ./",
+    "lint-fix": "eslint . --ext .js ./ --fix"
+  },
+  "keywords": [
+    "management"
+  ],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "eslint": "^6.8.0",
+    "eslint-config-airbnb-base": "^14.1.0",
+    "eslint-plugin-import": "^2.20.1",
+    "winston": "^2.3.0",
+    "winston-daily-rotate-file": "^4.5.0",
+    "winston-logstash": "^0.4.0",
+    "winston-logstash-transport": "^2.0.0"
+  },
+  "dependencies": {
+    "app-root-path": "^3.0.0",
+    "bcrypt": "^5.0.0",
+    "bluebird": "^3.7.2",
+    "body-parser": "^1.19.0",
+    "chai": "^4.2.0",
+    "cors": "^2.8.5",
+    "cross-env": "^7.0.2",
+    "db-migrate": "^0.11.9",
+    "db-migrate-pg": "^1.0.0",
+    "dotenv": "^8.2.0",
+    "esm": "^3.2.25",
+    "express": "^4.17.1",
+    "fs": "0.0.1-security",
+    "helmet": "^3.23.3",
+    "husky": "^6.0.0",
+    "joi": "^17.2.1",
+    "jsonwebtoken": "^8.5.1",
+    "mocha": "^8.3.2",
+    "morgan": "^1.10.0",
+    "node-cmd": "^4.0.0",
+    "nodemon": "^2.0.7",
+    "nyc": "^15.1.0",
+    "pg-promise": "^10.4.4",
+    "supertest": "^2.0.1",
+    "uuid": "^7.0.3"
+  }
+}
